@@ -3,3 +3,6 @@ inputs:
   - name: path
     required: true
     default: 'prisma/schema.prisma'
+  - name: varName
+    required: true
+    default: 'DATABASE_PROVIDER'
