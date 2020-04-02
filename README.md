@@ -24,3 +24,5 @@ package = 'netlify-plugin-prisma-provider'
 Then just create the environment variable in Netlify with the name you provided `varName` and a value of `postgresql` or `mysql`:
 
 ![image](https://user-images.githubusercontent.com/300/78293488-79e70880-74dd-11ea-8052-f09e5c47ecc8.png)
+
+If you don't set the environment variable it will assume you want to use `postgresql` and will replace that in your `schema.prisma`. If you don't want that to happen then you'll need to remove this plugin completely!
