@@ -20,3 +20,7 @@ package = 'netlify-plugin-prisma-provider'
 |------|-------------|---------|
 | `path` | The path to the schema.prisma file, relative to the root of your codebase. | `prisma/schema.prisma` |
 | `varName` | The name of the ENV variable that contains the provider name. Prisma currently supports "postgresql" and "mysql" as values for this variable. | `DATABASE_PROVIDER` |
+
+Then just create the environment variable in Netlify with the name you provided `varName` and a value of `postgresql` or `mysql`:
+
+![image](https://user-images.githubusercontent.com/300/78293488-79e70880-74dd-11ea-8052-f09e5c47ecc8.png)
