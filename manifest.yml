@@ -1,0 +1,5 @@
+name: netlify-plugin-prisma-provider
+inputs:
+  - name: path
+    required: true
+    default: 'prisma/schema.prisma'
