@@ -1,17 +1,18 @@
-const fs = require('fs')
-const PROVIDER_REGEX = /^\s+provider\s+=\s+["']sqlite["']/m
-const NEW_PROVIDER_STRING = `provider = "${process.env.DATABASE_PROVIDER ||
-  'postgresql'}"`
+const fs = require("fs");
+const PROVIDER_REGEX = /^\s+provider\s+=\s+["']sqlite["']/m;
 
 module.exports = {
   onPreBuild: ({ inputs }) => {
-    const schema = fs.readFileSync(inputs.path).toString()
+    const schema = fs.readFileSync(inputs.path).toString();
+    const newProvider = `provider = "${process.env[inputs.varName] || "postgresql"}"`;
 
     if (schema.match(PROVIDER_REGEX)) {
-      const newSchema = schema.replace(PROVIDER_REGEX, NEW_PROVIDER_STRING)
+      const newSchema = schema.replace(PROVIDER_REGEX, newProvider);
 
-      fs.writeFileSync(inputs.path, newSchema)
-      console.log(`Replaced provider with \`${NEW_PROVIDER_STRING}\``)
+      fs.writeFileSync(inputs.path, newSchema);
+      console.log(`  Replaced provider with \`${newProvider}\``);
+    } else {
+      console.log('  Skipping, provider is not "sqlite"');
     }
-  },
-}
+  }
+};
