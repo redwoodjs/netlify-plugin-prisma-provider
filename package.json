@@ -1,8 +1,13 @@
 {
   "name": "netlify-plugin-prisma-provider",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Swap out the schema.prisma provider dynamically at build time",
-  "keywords": ["netlify", "netlify-plugin", "prisma", "database"],
+  "keywords": [
+    "netlify",
+    "netlify-plugin",
+    "prisma",
+    "database"
+  ],
   "main": "src/index.js",
   "repository": "git@github.com:redwoodjs/netlify-plugin-prisma-provider.git",
   "bugs": {
