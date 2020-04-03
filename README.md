@@ -1,12 +1,27 @@
 # netlify-plugin-prisma-provider
 
-Currently, if you're using [Prisma](https://prisma.io) to talk to your database, there is no way to set the database provider dyanamically. So if you want to use a SQLite database locally, but use Postgres in production, there is no way to swap out the provider `"sqlite"` for `"postgresql"` dynamically, like with an ENV var. Prisma has an [open issue](https://github.com/prisma/prisma2/issues/1487) for fixing this issue, but there is no release date.
+Currently, if you're using [Prisma](https://prisma.io) to talk to your database, there is no way to set the database provider dyanamically. The `url` connection string can be set via ENV var, but not the `provider`:
 
-Until then, this plugin will swap out the provider for you right before your code is built on Netlify. You can set your preferred production database provider as an envirnoment variable and it will be swapped into `schema.prisma` right before the build begins (only if the `provider` that's already in `schema.prisma` is `"sqlite"`, otherwise it is ignored.
+```
+// schema.prisma
+
+datasource DS {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+```
+
+If you want to use a SQLite database locally, but use Postgres in production, there is no way to swap out the provider `"sqlite"` for `"postgresql"` once you go to production—the string for the provier *must* be present in this file before Prisma generates the client libraries.
+
+Prisma has an [open issue](https://github.com/prisma/prisma2/issues/1487) for letting you set this value via ENV var but there is no planned release date.
+
+Until then, this plugin will swap out the provider for you right before your code is built on Netlify. You can set your preferred production database provider as an envirnoment variable and it will be swapped into `schema.prisma` right before the build begins.
+
+> NOTE: The plugin will only replace the `provider` if its value is `sqlite`. If `postgresql` or `mysql` is present then the replacement is skipped. If switching between Postgres and MySQL in development and production is needed, open an issue and I'll update the plugin to support this scenario!
 
 ## Usage
 
-Add the `[[plugins]]` entry to your `netlify.toml` file:
+Add a `[[plugins]]` entry to your `netlify.toml` file:
 
 ```toml
 [[plugins]]
@@ -19,9 +34,9 @@ package = 'netlify-plugin-prisma-provider'
 | name | description | default |
 |------|-------------|---------|
 | `path` | The path to the schema.prisma file, relative to the root of your codebase. | `prisma/schema.prisma` |
-| `varName` | The name of the ENV variable that contains the provider name. Prisma currently supports "postgresql" and "mysql" as values for this variable. | `DATABASE_PROVIDER` |
+| `varName` | The name of the ENV variable that contains the provider name. | `DATABASE_PROVIDER` |
 
-Then just create the environment variable in Netlify with the name you provided `varName` and a value of `postgresql` or `mysql`:
+Add the environment variable in Netlify with the name you provided `varName` and a value of `postgresql` or `mysql`:
 
 ![image](https://user-images.githubusercontent.com/300/78293488-79e70880-74dd-11ea-8052-f09e5c47ecc8.png)
 
