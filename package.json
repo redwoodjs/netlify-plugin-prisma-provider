@@ -5,7 +5,9 @@
   "keywords": ["netlify", "netlify-plugin", "prisma", "database"],
   "main": "src/index.js",
   "repository": "git@github.com:redwoodjs/netlify-plugin-prisma-provider.git",
-  "bugs": "",
+  "bugs": {
+    "url": "https://github.com/redwoodjs/netlify-plugin-prisma-provider/issues"
+  },
   "author": "rob@prestonwernerventures.com",
   "license": "MIT",
   "private": false
