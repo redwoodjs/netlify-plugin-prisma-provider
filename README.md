@@ -1,6 +1,6 @@
 # netlify-plugin-prisma-provider
 
-Currently, if you're using [Prisma](https://prisma.io) to talk to your database, there is no way to set the database provider dyanamically. The `url` connection string can be set via ENV var, but not the `provider`:
+Currently, if you're using [Prisma](https://prisma.io) to talk to your database, there is no way to set the database provider dynamically. The `url` connection string can be set via ENV var, but not the `provider`:
 
 ```
 // schema.prisma
@@ -11,11 +11,11 @@ datasource DS {
 }
 ```
 
-If you want to use a SQLite database locally, but use Postgres in production, there is no way to swap out the provider `"sqlite"` for `"postgresql"` once you go to production—the string for the provier *must* be present in this file before Prisma generates the client libraries.
+If you want to use a SQLite database locally, but use Postgres in production, there is no way to swap out the provider `"sqlite"` for `"postgresql"` once you go to production—the string for the provider *must* be present in this file before Prisma generates the client libraries.
 
 Prisma has an [open issue](https://github.com/prisma/prisma2/issues/1487) for letting you set this value via ENV var but there is no planned release date.
 
-Until then, this plugin will swap out the provider for you right before your code is built on Netlify. You can set your preferred production database provider as an envirnoment variable and it will be swapped into `schema.prisma` right before the build begins.
+Until then, this plugin will swap out the provider for you right before your code is built on Netlify. You can set your preferred production database provider as an environment variable and it will be swapped into `schema.prisma` right before the build begins.
 
 > NOTE: The plugin will only replace the `provider` if its value is `sqlite`. If `postgresql` or `mysql` is present then the replacement is skipped. If switching between Postgres and MySQL in development and production is needed, open an issue and I'll update the plugin to support this scenario!
 
@@ -28,7 +28,7 @@ Add a `[[plugins]]` entry to your `netlify.toml` file:
 package = 'netlify-plugin-prisma-provider'
   [plugins.inputs]
   path = 'prisma/schema.prisma'
-  varName = 'DATABASE_PROVIDER`
+  varName = 'DATABASE_PROVIDER'
 ```
 
 | name | description | default |
