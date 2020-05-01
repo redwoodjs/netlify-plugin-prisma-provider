@@ -19,7 +19,7 @@ Until then, this plugin will swap out the provider for you right before your cod
 
 > NOTE: The plugin will only replace the `provider` if its value is `sqlite`. If `postgresql` or `mysql` is present then the replacement is skipped. If switching between Postgres and MySQL in development and production is needed, open an issue and I'll update the plugin to support this scenario!
 
-As of Prisma's [beta3](https://github.com/prisma/prisma/releases/tag/2.0.0-beta.3) release their migration scripts look at the `provider` in each migration's snapshot of `schema.prisma` and compare those against the `url` in the main `schema.prisma`. If the protocol doesn't match the provider it will raise an error during the migration. Starting in version 0.2.0 of this plugin, we will also replace the provider in each of the migration snapshots' copy of `schema.prisma`.
+As of Prisma's [beta3](https://github.com/prisma/prisma/releases/tag/2.0.0-beta.3) release their migration scripts look at the `provider` in each migration's snapshot of `schema.prisma` and compare those against the `url` in the main `schema.prisma`. If the protocol doesn't match the provider it will raise an error during the migration. Starting in version 0.3.0 of this plugin, we will also replace the provider in each of the migration snapshots' copy of `schema.prisma` and `steps.json`.
 
 ## Usage
 
