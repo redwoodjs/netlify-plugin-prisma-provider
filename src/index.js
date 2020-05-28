@@ -6,25 +6,35 @@ const PROVIDER_REGEX = /^\s*provider\s+=\s+["']sqlite["']/m
 const STEPS_REGEX = /\\"sqlite\\"/
 const DEFAULT_PROVIDER = 'postgresql'
 
-const replaceProvider = (filePath, options = {}) => {
-  const content = fs.readFileSync(filePath).toString()
+const replaceProvider = (utils,filePath,options = {}) => {
+  let content
+
+  try {
+    content = fs.readFileSync(filePath).toString()
+  } catch (e) {
+    utils.build.failPlugin(`Could not find file ${filePath} for replacement.`)
+  }
 
   if (content.match(options.regex)) {
     const newContent = content.replace(options.regex, options.replace)
 
-    fs.writeFileSync(filePath, newContent)
-    console.log(
-      `  Replaced provider with \`${options.replace}\` in ${filePath}`
-    )
+    try {
+      fs.writeFileSync(filePath,newContent)
+      console.log(
+        `  Replaced provider with \`${options.replace}\` in ${filePath}`
+      )
+    } catch (e) {
+      utils.build.failPlugin(`Could not write file ${filePath} after replacement.`)
+    }
   } else {
     console.log(`  Skipping, provider is not "sqlite" in ${filePath}`)
   }
 }
 
 module.exports = {
-  onPreBuild: ({ inputs }) => {
+  onPreBuild: ({ inputs, utils }) => {
     console.log('Replacing provider in schema.prisma...')
-    replaceProvider(inputs.path, {
+    replaceProvider(utils, inputs.path, {
       regex: PROVIDER_REGEX,
       replace: `provider = "${
         process.env[inputs.varName] || DEFAULT_PROVIDER
