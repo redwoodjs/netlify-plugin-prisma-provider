@@ -1,6 +1,6 @@
 {
   "name": "netlify-plugin-prisma-provider",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Swap out the schema.prisma provider dynamically at build time",
   "keywords": [
     "netlify",
